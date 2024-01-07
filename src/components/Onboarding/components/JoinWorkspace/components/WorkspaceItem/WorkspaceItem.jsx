@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './workspace-item.module.scss';
 
@@ -6,7 +7,7 @@ export default function WorkspaceItem(props) {
   const { name, membersNumber } = props;
 
   return (
-    <div className={styles.workspaceItemContainer}>
+    <Link className={styles.workspaceItemContainer}>
       <div className={styles.iconContainer}>
         <div className={styles.iconText}>
           W
@@ -20,6 +21,6 @@ export default function WorkspaceItem(props) {
           {membersNumber} {membersNumber > 1 ? 'members' : 'member'}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
