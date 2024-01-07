@@ -1,5 +1,9 @@
 $white: #ffffff;
 $black: #000000;
+$tealPrimary: #489C52;
+$tealSecondary: #00B1B0;
+$backgroundSecondary: #2F3747;
+$textSecondary: #B5BAC3;
 
 @function spectrumRgba($color, $opacity) {
   @return transparentize($color, 1 - $opacity);
