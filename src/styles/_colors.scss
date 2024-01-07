@@ -1,0 +1,6 @@
+$white: #ffffff;
+$black: #000000;
+
+@function spectrumRgba($color, $opacity) {
+  @return transparentize($color, 1 - $opacity);
+}

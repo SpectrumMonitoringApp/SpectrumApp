@@ -1,0 +1,115 @@
+@use '../../styles/colors';
+@use '../../styles/fonts';
+
+.page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+
+  .actionsContainer {
+    flex: 1;
+    //background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      //background-color: yellow;
+
+      .headerContainer {
+        .title {
+          font-weight: fonts.$font-weight-bold;
+          font-size: fonts.$font-larger;
+        }
+
+        .subTitle {
+
+        }
+      }
+
+      .inputsWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .inputsContainer {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .inputBlock {
+            .inputLabel {
+              font-size: fonts.$font-small;
+            }
+          }
+        }
+
+        .additionalActions {
+        }
+      }
+
+      .actionButtonWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .helperTextWrapper {
+          .helperQuestionText {
+            color: #00B1B0;
+          }
+
+          .helperActionButtonText {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .sideInfoContainer {
+    flex: 1;
+    background: rgb(0, 130, 129);
+    background: linear-gradient(135deg, rgba(0, 130, 129, 1) 25%, rgba(1, 111, 131, 1) 53%, rgba(0, 137, 184, 1) 72%, rgba(0, 108, 194, 1) 87%);
+    border-radius: 320px 0 320px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .logoContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .logoWrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .title {
+          text-align: center;
+          font-weight: fonts.$font-weight-bold;
+          font-size: fonts.$font-huge;
+        }
+      }
+
+      .infoButtonsContainer {
+        padding: 24px 0;
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        font-size: fonts.$font-medium;
+      }
+    }
+  }
+}
