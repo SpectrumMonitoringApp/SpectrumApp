@@ -32,21 +32,21 @@
         }
       }
 
-      .workspacesWrapper {
+      .inputsWrapper {
         display: flex;
         flex-direction: column;
         gap: 10px;
 
-        .title {
-          text-transform: uppercase;
-          font-weight: fonts.$font-weight-semi-bold;
-        }
-
-        .workspacesContainer {
+        .inputsContainer {
           display: flex;
+          flex-direction: column;
           gap: 20px;
-          flex-wrap: wrap;
         }
+      }
+
+      .actionButtonWrapper {
+        display: flex;
+        flex-direction: column;
       }
 
       .footerInfoContainer {

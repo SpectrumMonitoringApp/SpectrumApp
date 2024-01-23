@@ -1,0 +1,29 @@
+@use '../../../../styles/colors';
+@use '../../../../styles/fonts';
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .actionsBlock {
+    .sidebarButtonsContainer {
+      display: flex;
+      flex-direction: column;
+
+      .linkButtonContainer {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .currentUserWrapper {
+
+  }
+}
+
+.dividerMargins {
+  margin: 20px 0
+}

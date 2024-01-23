@@ -1,14 +1,100 @@
-import React from 'react';
-import { Input, Button, Checkbox } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import to from 'await-to-js';
+import { Button, Checkbox, useToast } from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+
+import SpectrumInputBlock from '../Primary/SpectrumInputBlock/SpectrumInputBlock';
 
 import styles from './sign-up-sign-in.module.scss';
 
 import { ReactComponent as SpectrumLogo } from '../../images/spectrum-logo.svg';
+import { handleUserSignUp } from './services/handleUserSignUp';
+import { handleUserSignIn } from './services/handleUserSignIn';
+import { spectrumAccessTokenLocalStorageKey } from '../../services/apiUrl';
 
 export default function SignUpSignIn(props) {
+  const toast = useToast();
+  const navigate = useNavigate();
   const { isSignUp } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const isSignInSignUpButtonEnabled = useMemo(() => email && password && (isSignUp ? fullName : true), [isSignUp, email, password, fullName]);
+
+
+  /**
+   * Handler on Sign Up button click
+   * @returns {Promise<string|number>}
+   */
+  async function proceedSignUpButtonClick() {
+    setIsLoading(true);
+
+    const [err] = await to(handleUserSignUp(fullName, email, password));
+
+    setIsLoading(false);
+
+    if (err) return toast({
+      title: 'Whoops, there was an error.',
+      status: 'error',
+      isClosable: true
+    });
+
+    setFullName('');
+    setEmail('');
+    setPassword('');
+
+    toast({
+      title: '🚀 User has been successfully created',
+      description: 'Now sign in with newly created user',
+      status: 'success',
+      isClosable: true
+    });
+
+    setTimeout(() => navigate('/sign-in'), 1000);
+  }
+
+  /**
+   * Handler on Sign Ip button click
+   * @returns {Promise<string|number>}
+   */
+  async function proceedSignInButtonClick() {
+    setIsLoading(true);
+
+    const [err, res] = await to(handleUserSignIn(email, password));
+
+    setIsLoading(false);
+
+    if (err) return toast({
+      title: 'Whoops, there was an error.',
+      status: 'error',
+      isClosable: true
+    });
+
+    setEmail('');
+    setPassword('');
+
+    localStorage.setItem(spectrumAccessTokenLocalStorageKey, res.accessToken);
+
+    toast({
+      title: `Signed in as ${res.email}`,
+      description: 'Let the journey begin with Spectrum',
+      status: 'success',
+      isClosable: true
+    });
+
+    navigate('/onboarding/join');
+  }
+
+  /**
+   * Call different function on Sign In/Sign Up button click depending on current page
+   */
+  function handleSignInSignUpButtonClick() {
+    if (isSignUp) return proceedSignUpButtonClick();
+
+    proceedSignInButtonClick();
+  }
 
   return (
     <>
@@ -26,28 +112,23 @@ export default function SignUpSignIn(props) {
             </div>
             <div className={styles.inputsWrapper}>
               <div className={styles.inputsContainer}>
-                {isSignUp ? <div className={styles.inputBlock}>
-                  <div className={styles.inputLabel}>Full name*</div>
-                  <Input />
-                </div> : null}
-                <div className={styles.inputBlock}>
-                  <div className={styles.inputLabel}>Email*</div>
-                  <Input />
-                </div>
-                <div className={styles.inputBlock}>
-                  <div className={styles.inputLabel}>Password*</div>
-                  <Input type='password' />
-                </div>
+                {isSignUp ? <SpectrumInputBlock label='Full name*' placeholder='Jack Wilson' value={fullName}
+                                                onChange={(e) => setFullName(e.target.value)} /> : null}
+                <SpectrumInputBlock label='Email*' type='email' placeholder='jack.wilson@email.com' value={email}
+                                    onChange={(e) => setEmail(e.target.value)} />
+                <SpectrumInputBlock label='Password*' type='password' placeholder='BLqQVrR5CtgKumZ' value={password}
+                                    onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div className={styles.additionalActions}>
                 <Checkbox>Keep me logged in</Checkbox>
               </div>
             </div>
             <div className={styles.actionButtonWrapper}>
-              <Button colorScheme='teal'>{isSignUp ? 'Sign Up' : 'Sign In'}</Button>
+              <Button colorScheme='teal' isLoading={isLoading} isDisabled={!isSignInSignUpButtonEnabled}
+                      onClick={handleSignInSignUpButtonClick}>{isSignUp ? 'Sign Up' : 'Sign In'}</Button>
               <div className={styles.helperTextWrapper}>
                 <div><span
-                  className={styles.helperQuestionText}>{isSignUp ? 'Already have an account?' : 'Not registered yet?'}</span>
+                  className={styles.helperQuestionText}>{isSignUp ? 'Already have an account?' : 'Not registered yet?'}</span>&nbsp;
                   <Link to={isSignUp ? '/sign-in' : '/sign-up'}
                         className={styles.helperActionButtonText}>{isSignUp ? 'Sign In in existing account' : 'Create an account'}</Link>
                 </div>

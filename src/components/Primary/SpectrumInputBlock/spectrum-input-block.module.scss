@@ -1,0 +1,7 @@
+@use '../../../styles/fonts';
+
+.inputBlock {
+  .inputLabel {
+    font-size: fonts.$font-small;
+  }
+}

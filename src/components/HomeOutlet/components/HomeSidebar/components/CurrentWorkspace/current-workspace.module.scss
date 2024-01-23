@@ -1,0 +1,53 @@
+@use '../../../../../../styles/colors';
+@use '../../../../../../styles/fonts';
+
+.currentWorkspaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  .workspaceInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .workspaceIcon {
+      height: 35px;
+      width: 35px;
+      border-radius: 10px;
+      background-color: colors.$tealPrimary;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .iconText {
+        text-transform: uppercase;
+        font-size: fonts.$font-medium;
+      }
+    }
+
+    .workspaceName {
+      font-weight: fonts.$font-weight-semi-bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .changeIconContainer {
+    height: 25px;
+    width: 25px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: colors.$accentBackground;
+
+    &:hover {
+      background-color: colors.$focusedBackground;
+      transition: background-color 0.3s; /* For modern browsers */
+    }
+  }
+}

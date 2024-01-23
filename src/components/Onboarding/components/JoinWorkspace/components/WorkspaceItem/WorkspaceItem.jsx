@@ -7,19 +7,19 @@ export default function WorkspaceItem(props) {
   const { name, membersNumber } = props;
 
   return (
-    <Link className={styles.workspaceItemContainer}>
+    <Link className={styles.workspaceItemContainer} to='/'>
       <div className={styles.iconContainer}>
         <div className={styles.iconText}>
-          W
+          {name?.[0]}
         </div>
       </div>
       <div className={styles.workspaceInfoContainer}>
         <div className={styles.name}>
           {name}
         </div>
-        <div className={styles.membersNumber}>
+        {membersNumber ? <div className={styles.membersNumber}>
           {membersNumber} {membersNumber > 1 ? 'members' : 'member'}
-        </div>
+        </div> : null}
       </div>
     </Link>
   );

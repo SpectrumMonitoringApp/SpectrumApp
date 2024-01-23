@@ -1,0 +1,10 @@
+@use '../../styles/colors';
+@use '../../styles/fonts';
+
+.container {
+  .pageHeader {
+    margin: 20px 0;
+    font-weight: fonts.$font-weight-bold;
+    font-size: fonts.$font-larger;
+  }
+}

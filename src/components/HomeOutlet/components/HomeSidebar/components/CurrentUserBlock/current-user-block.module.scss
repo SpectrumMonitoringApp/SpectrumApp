@@ -1,0 +1,25 @@
+@use '../../../../../../styles/colors';
+@use '../../../../../../styles/fonts';
+
+.container {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: colors.$accentBackground;
+
+  .avatarContainer {
+
+  }
+
+  .fullNameContainer {
+    display: flex;
+    align-items: center;
+    font-size: fonts.$font-normal;
+  }
+
+  &:hover {
+    background-color: colors.$focusedBackground;
+    transition: background-color 0.3s; /* For modern browsers */
+  }
+}

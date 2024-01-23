@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import to from 'await-to-js';
 import { Link } from 'react-router-dom';
+import { Skeleton, useToast } from '@chakra-ui/react';
 
 import WorkspaceItem from './components/WorkspaceItem/WorkspaceItem';
+import { getUserWorkspaces } from './services/getUserWorkspaces';
 
 import styles from './join-workspace.module.scss';
 
-export default function JoinWorkspace(props) {
+export default function JoinWorkspace() {
+  const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userWorkspaces, setUserWorkspace] = useState([]);
+
+  /**
+   * Fetch user workspaces
+   */
+  useEffect(() => {
+    proceedUserWorkspaces();
+  }, []);
+
+  /**
+   * Get workspaces user has access to
+   * @returns {Promise<string|number>}
+   */
+  async function proceedUserWorkspaces() {
+    setIsLoading(true);
+
+    const [err, res] = await to(getUserWorkspaces());
+
+    setIsLoading(false);
+
+    if (err) return toast({
+      title: 'Whoops, there was an error.',
+      status: 'error',
+      isClosable: true
+    });
+
+    setUserWorkspace(res);
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.contentWrapper}>
@@ -15,15 +49,16 @@ export default function JoinWorkspace(props) {
               👋 Welcome to Spectrum, Bohdan
             </div>
             <div className={styles.subTitle}>
-              Click below to join a workspace, or <Link className={styles.createNewText}>create a new workspace</Link>
+              Click below to join a workspace, or <Link className={styles.createNewText} to='/onboarding/create'>create
+              a new workspace</Link>
             </div>
           </div>
           <div className={styles.workspacesWrapper}>
             <div className={styles.title}>Your workspaces</div>
             <div className={styles.workspacesContainer}>
-              <WorkspaceItem name={'Workaround'} membersNumber={2}/>
-              <WorkspaceItem name={'Workaround dsjaktop team'} membersNumber={1}/>
-              <WorkspaceItem name={'AXDRAFT'} membersNumber={1}/>
+              {isLoading ? [...Array(3).keys()].map(() =>
+                <Skeleton><WorkspaceItem />)</Skeleton>) : userWorkspaces.map(({ name }) => <WorkspaceItem
+                name={name} />)}
             </div>
           </div>
           <div className={styles.footerInfoContainer}>
