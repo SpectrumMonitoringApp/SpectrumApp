@@ -1,0 +1,29 @@
+@use '../../../../../styles/colors';
+@use '../../../../../styles/fonts';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  //background-color: colors.$accentBackground;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid colors.$accentBackground;
+
+  .name {
+    font-size: fonts.$font-medium;
+    font-weight: fonts.$font-weight-bold;
+  }
+
+  .resourceInfoContainer {
+    .resourceInfo {
+      color: colors.$textSecondary
+    }
+  }
+
+  &:hover {
+    background-color: colors.$backgroundSecondary;
+    transition: background-color 0.3s; /* For modern browsers */
+  }
+}

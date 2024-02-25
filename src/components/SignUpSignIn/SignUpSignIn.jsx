@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import to from 'await-to-js';
 import { Button, Checkbox, useToast } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,16 +12,28 @@ import { ReactComponent as SpectrumLogo } from '../../images/spectrum-logo.svg';
 import { handleUserSignUp } from './services/handleUserSignUp';
 import { handleUserSignIn } from './services/handleUserSignIn';
 import { spectrumAccessTokenLocalStorageKey } from '../../services/apiUrl';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 export default function SignUpSignIn(props) {
   const toast = useToast();
   const navigate = useNavigate();
+  const { state, dispatch: currentUserDispatch } = useCurrentUser();
+  const { user } = state;
   const { isSignUp } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const isSignInSignUpButtonEnabled = useMemo(() => email && password && (isSignUp ? fullName : true), [isSignUp, email, password, fullName]);
+
+  useEffect(() => {
+    const bearerTokenExists = localStorage.getItem(spectrumAccessTokenLocalStorageKey);
+
+    console.log('user: ', user);
+    console.log('bearerTokenExists: ', bearerTokenExists);
+
+    if (user && bearerTokenExists) navigate('/');
+  }, [user]);
 
 
   /**
@@ -84,6 +96,12 @@ export default function SignUpSignIn(props) {
       isClosable: true
     });
 
+    const userData = {
+      email: res.email,
+      fullName: res.fullName
+    };
+
+    currentUserDispatch({ type: 'SET_USER', payload: userData });
     navigate('/onboarding/join');
   }
 

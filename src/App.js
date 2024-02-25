@@ -8,9 +8,12 @@ import JoinWorkspace from './components/Onboarding/components/JoinWorkspace/Join
 import CreateWorkspace from './components/Onboarding/components/CreateWorkspace/CreateWorkspace';
 import HomeOutlet from './components/HomeOutlet/HomeOutlet';
 import MainDashboard from './components/MainDashboard/MainDashboard';
-import Resources from './components/Resources/Resources';
+import ResourcesOutlet from './components/ResourcesOutlet/ResourcesOutlet';
 import WorkspaceSettings from './components/WorkspaceSettings/WorkspaceSettings';
 import Profile from './components/Profile/Profile';
+import Resources from './components/ResourcesOutlet/components/Resources/Resources';
+import ResourceDetails from './components/ResourcesOutlet/components/ResourceDetails/ResourceDetails';
+import { CurrentUserProvider } from './services/CurrentUserContext/CurrentUserProvider';
 
 const theme = extendTheme({
   config: {
@@ -26,24 +29,30 @@ const theme = extendTheme({
 
 export default function App() {
   return (
-    <ChakraProvider theme={theme} initialColorMode={theme.config.initialColorMode} toastOptions={{ defaultOptions: { position: 'top' } }}>
+    <ChakraProvider theme={theme} initialColorMode={theme.config.initialColorMode}
+                    toastOptions={{ defaultOptions: { position: 'top' } }}>
       <Router>
-        <Routes>
-          <Route exact path='/' element={<HomeOutlet />}>
-            <Route index element={<MainDashboard />} />
-            <Route path='/resources' element={<Resources />} />
-            <Route path='/settings' element={<WorkspaceSettings />} />
-            <Route path='/profile' element={<Profile />} />
-          </Route>
-          <Route exact path='/sign-up' element={<SignUpSignIn isSignUp />} />
-          <Route exact path='/sign-in' element={<SignUpSignIn />} />
-          <Route path='/onboarding'>
-            <Route index element={<Navigate to='/onboarding/join' replace />} />
-            <Route path='join' element={<JoinWorkspace />} />
-            <Route path='create' element={<CreateWorkspace />} />
-          </Route>
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+        <CurrentUserProvider>
+          <Routes>
+            <Route exact path='/' element={<HomeOutlet />}>
+              <Route index element={<MainDashboard />} />
+              <Route path='/resources' element={<ResourcesOutlet />}>
+                <Route index element={<Resources />} />
+                <Route path=':id' element={<ResourceDetails />} />
+              </Route>
+              <Route path='/settings' element={<WorkspaceSettings />} />
+              <Route path='/profile' element={<Profile />} />
+            </Route>
+            <Route exact path='/sign-up' element={<SignUpSignIn isSignUp />} />
+            <Route exact path='/sign-in' element={<SignUpSignIn />} />
+            <Route path='/onboarding'>
+              <Route index element={<Navigate to='/onboarding/join' replace />} />
+              <Route path='join' element={<JoinWorkspace />} />
+              <Route path='create' element={<CreateWorkspace />} />
+            </Route>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </CurrentUserProvider>
       </Router>
     </ChakraProvider>
   );

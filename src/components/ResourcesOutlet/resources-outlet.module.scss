@@ -2,6 +2,9 @@
 @use '../../styles/fonts';
 
 .container {
+  display: flex;
+  flex-direction: column;
+
   .pageHeader {
     margin: 20px 0;
     font-weight: fonts.$font-weight-bold;

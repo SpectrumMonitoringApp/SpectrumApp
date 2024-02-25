@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import to from 'await-to-js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Skeleton, useToast } from '@chakra-ui/react';
 
 import WorkspaceItem from './components/WorkspaceItem/WorkspaceItem';
 import { getUserWorkspaces } from './services/getUserWorkspaces';
+import {
+  workspaceIdLocalStorageKey, handleWorkspaceSelect
+} from '../../../../services/workspace';
 
 import styles from './join-workspace.module.scss';
 
 export default function JoinWorkspace() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const workspaceId = localStorage.getItem(workspaceIdLocalStorageKey);
   const [isLoading, setIsLoading] = useState(false);
   const [userWorkspaces, setUserWorkspace] = useState([]);
 
@@ -17,7 +22,10 @@ export default function JoinWorkspace() {
    * Fetch user workspaces
    */
   useEffect(() => {
+    if (workspaceId) navigate('/');
+
     proceedUserWorkspaces();
+    console.log('workspaceId: ', workspaceId);
   }, []);
 
   /**
@@ -57,8 +65,8 @@ export default function JoinWorkspace() {
             <div className={styles.title}>Your workspaces</div>
             <div className={styles.workspacesContainer}>
               {isLoading ? [...Array(3).keys()].map(() =>
-                <Skeleton><WorkspaceItem />)</Skeleton>) : userWorkspaces.map(({ name }) => <WorkspaceItem
-                name={name} />)}
+                <Skeleton><WorkspaceItem />)</Skeleton>) : userWorkspaces.map(({ id, name }) => <WorkspaceItem
+                name={name} onClick={() => handleWorkspaceSelect(id)}/>)}
             </div>
           </div>
           <div className={styles.footerInfoContainer}>

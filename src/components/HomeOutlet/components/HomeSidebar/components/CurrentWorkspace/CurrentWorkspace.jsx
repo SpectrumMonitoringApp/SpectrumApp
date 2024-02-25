@@ -1,11 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UpDownIcon } from '@chakra-ui/icons';
 
 import styles from './current-workspace.module.scss';
+import { clearSelectedWorkspace } from '../../../../../../services/workspace';
 
 export default function CurrentWorkspace(props) {
   const { workspaceName } = props;
+  const navigate = useNavigate();
+
+  /**
+   * Clear selected workspace and redirect to page for selecting workspace
+   */
+  function handleChangeWorkspaceClick() {
+    clearSelectedWorkspace();
+    navigate('/onboarding/join')
+  }
 
   return (
     <div className={styles.currentWorkspaceContainer}>
@@ -17,7 +27,7 @@ export default function CurrentWorkspace(props) {
         </div>
         <div className={styles.workspaceName}>{workspaceName.substring(0, 10) + '...'}</div>
       </div>
-      <Link className={styles.changeIconContainer} to='/onboarding/join'><UpDownIcon boxSize={3} /></Link>
+      <div className={styles.changeIconContainer} onClick={handleChangeWorkspaceClick}><UpDownIcon boxSize={3} /></div>
     </div>
   );
 }

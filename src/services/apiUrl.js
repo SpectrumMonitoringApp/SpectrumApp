@@ -43,6 +43,7 @@ export function checkResponse(fetchResponse) {
 
   if (fetchResponse.status === 401 && !redirectSkipPathnames.includes(window.location.pathname))
     setTimeout(() => {
+      localStorage.removeItem(spectrumAccessTokenLocalStorageKey);
       window.location.replace('/sign-in');
     }, 0);
 
