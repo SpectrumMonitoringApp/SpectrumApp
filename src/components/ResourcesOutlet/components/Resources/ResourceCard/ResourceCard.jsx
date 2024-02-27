@@ -9,7 +9,7 @@ export default function ResourceCard(props) {
     <Link className={styles.container} to={`/resources/${id}`}>
       <div className={styles.name}>{name}</div>
       <div className={styles.resourceInfoContainer}>
-        <div className={styles.resourceInfo}>{type} | {pollInterval}</div>
+        <div className={styles.resourceInfo}>{type} | {pollInterval || '-'}</div>
       </div>
     </Link>
   );

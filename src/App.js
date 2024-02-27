@@ -13,6 +13,7 @@ import WorkspaceSettings from './components/WorkspaceSettings/WorkspaceSettings'
 import Profile from './components/Profile/Profile';
 import Resources from './components/ResourcesOutlet/components/Resources/Resources';
 import ResourceDetails from './components/ResourcesOutlet/components/ResourceDetails/ResourceDetails';
+import ResourceDashboard from './components/ResourcesOutlet/components/ResourceDashboard/ResourceDashboard';
 import { CurrentUserProvider } from './services/CurrentUserContext/CurrentUserProvider';
 
 const theme = extendTheme({
@@ -38,7 +39,9 @@ export default function App() {
               <Route index element={<MainDashboard />} />
               <Route path='/resources' element={<ResourcesOutlet />}>
                 <Route index element={<Resources />} />
-                <Route path=':id' element={<ResourceDetails />} />
+                <Route path='new' element={<ResourceDetails />} />
+                <Route path=':id' element={<ResourceDashboard />} />
+                <Route path=':id/edit' element={<ResourceDetails />} />
               </Route>
               <Route path='/settings' element={<WorkspaceSettings />} />
               <Route path='/profile' element={<Profile />} />

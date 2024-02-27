@@ -1,22 +1,25 @@
 import React from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 
 import styles from './resources-outlet.module.scss';
 
 export default function ResourcesOutlet(props) {
+  const { pathname } = useLocation();
   let { id } = useParams();
-  const isNew = id === 'new';
+  const isNew = pathname.endsWith('/new');
 
   /**
    * Get ResourcesOutlet header text depending on url params
    * @returns {string}
    */
   function getResourceOutletHeaderText() {
+    if (pathname.endsWith('/new')) return 'Create resource';
+
     if (!id) return 'Resources';
 
-    if (isNew) return 'Create resource';
+    if (pathname.endsWith('/edit')) return 'Update resource';
 
-    return 'Update resource'
+    return 'Resource dashboard';
   }
 
   return (

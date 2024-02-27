@@ -17,3 +17,10 @@ export function handleWorkspaceSelect(workspaceId) {
 export function clearSelectedWorkspace() {
   localStorage.removeItem(workspaceIdLocalStorageKey);
 }
+
+/**
+ * Get selected workspace id
+ */
+export function getSelectedWorkspace() {
+  return localStorage.getItem(workspaceIdLocalStorageKey);
+}
