@@ -53,8 +53,8 @@ export default function Resources(props) {
     <div className={styles.container}>
       <Link to='/resources/new'><Button colorScheme='teal'>Create</Button></Link>
       <div className={styles.resourcesList}>
-        {workspaceResources.map(({ id, name, type, pollInterval }) => <ResourceCard id={id} name={name} type={type}
-                                                                               pollInterval={pollInterval} />)}
+        {workspaceResources.length ? workspaceResources.map(({ id, name, type, pollInterval }) => <ResourceCard id={id} name={name} type={type}
+                                                                               pollInterval={pollInterval} />) : 'These are no resources, create your first one'}
 
       </div>
     </div>
