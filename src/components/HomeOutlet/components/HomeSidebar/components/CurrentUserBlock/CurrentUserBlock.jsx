@@ -10,8 +10,6 @@ export default function CurrentUserBlock(props) {
   const { state } = useCurrentUser();
   const { user } = state;
 
-  console.log('user: ', user);
-
   return (
     <Link className={styles.container} to='/profile'>
       <div className={styles.avatarContainer}>

@@ -25,7 +25,6 @@ export default function JoinWorkspace() {
     if (workspaceId) navigate('/');
 
     proceedUserWorkspaces();
-    console.log('workspaceId: ', workspaceId);
   }, []);
 
   /**
@@ -64,9 +63,10 @@ export default function JoinWorkspace() {
           <div className={styles.workspacesWrapper}>
             <div className={styles.title}>Your workspaces</div>
             <div className={styles.workspacesContainer}>
-              {isLoading ? [...Array(3).keys()].map(() =>
-                <Skeleton><WorkspaceItem />)</Skeleton>) : userWorkspaces.map(({ id, name }) => <WorkspaceItem
-                name={name} onClick={() => handleWorkspaceSelect(id)}/>)}
+              {isLoading ? [...Array(3).keys()].map((index) =>
+                <Skeleton key={index}><WorkspaceItem />)</Skeleton>) : userWorkspaces.map(({ id, name }) => <WorkspaceItem key={id}
+                                                                                                               name={name}
+                                                                                                               onClick={() => handleWorkspaceSelect(id)} />)}
             </div>
           </div>
           <div className={styles.footerInfoContainer}>

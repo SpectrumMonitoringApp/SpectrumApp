@@ -29,9 +29,6 @@ export default function SignUpSignIn(props) {
   useEffect(() => {
     const bearerTokenExists = localStorage.getItem(spectrumAccessTokenLocalStorageKey);
 
-    console.log('user: ', user);
-    console.log('bearerTokenExists: ', bearerTokenExists);
-
     if (user && bearerTokenExists) navigate('/');
   }, [user]);
 

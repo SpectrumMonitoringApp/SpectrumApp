@@ -28,6 +28,8 @@
     }
 
     .workspaceName {
+      display: flex;
+      justify-content: center;
       font-weight: fonts.$font-weight-semi-bold;
       overflow: hidden;
       text-overflow: ellipsis;

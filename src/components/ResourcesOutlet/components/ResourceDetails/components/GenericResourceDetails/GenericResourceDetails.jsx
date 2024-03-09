@@ -13,6 +13,8 @@ export const pollIntervals = [{ value: pollIntervalValues['1m'], label: '1m' }, 
 export default function GenericResourceDetails(props) {
   const { isNew, pollInterval, resourceName, isActive, onResourceNameChange, onIsActiveChange, onPollIntervalChange} = props;
 
+  console.log(resourceName);
+
   return (
     <div className={styles.formDateContainer}>
       <Input placeholder='Name' onChange={onResourceNameChange} value={resourceName}/>
@@ -23,7 +25,7 @@ export default function GenericResourceDetails(props) {
       <div className={styles.pollIntevalContainer}>
         <div className={styles.text}>How often should we poll the resource?</div>
         <Select value={pollInterval} onChange={onPollIntervalChange}>
-          {pollIntervals.map(({ value, label }) => <option value={value}>{label}</option>)}
+          {pollIntervals.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>
     </div>
