@@ -16,6 +16,8 @@ export default function MySqlResourceDetails(props) {
   const navigate = useNavigate();
   const { isNew, resourceDetails, resourceId, workspaceId } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [isPollIntervalLoading, setIsPollIntervalLoading] = useState(false);
   const [pollInterval, setPollInterval] = useState(pollIntervalValues['1m']);
   const [resourceName, setResourceName] = useState('');
   const [isActive, setIsActive] = useState(false);
@@ -26,9 +28,22 @@ export default function MySqlResourceDetails(props) {
   const [database, setDatabase] = useState('');
 
   useEffect(() => {
-    const { name, host, port, username, password, databaseName } = resourceDetails;
+    const {
+      name,
+      isActive: isResourceActive,
+      pollInterval,
+      host,
+      port,
+      username,
+      password,
+      databaseName
+    } = resourceDetails;
+
+    console.log('pollInterval: ', pollInterval);
 
     setResourceName(name);
+    setIsActive(isResourceActive);
+    setPollInterval(pollInterval);
     setHost(host);
     setPort(port);
     setUsername(username);
@@ -88,6 +103,8 @@ export default function MySqlResourceDetails(props) {
       workspaceId: currentWorkspaceId,
       name: resourceName,
       type: 'MySQL',
+      isActive,
+      pollInterval,
       host,
       port,
       username,
@@ -116,12 +133,79 @@ export default function MySqlResourceDetails(props) {
     navigate(`/resources/${res}`);
   }
 
+  /**
+   * Handle isActive switch click
+   */
+  async function handleIsActiveResourceChange(isChecked) {
+    setIsActive(isChecked);
+
+    if (isNew) return;
+
+    setIsSwitchLoading(true);
+
+    const [err] = await to(updateResource(workspaceId, resourceId, { isActive: isChecked }, {}));
+
+    setIsSwitchLoading(false);
+
+    if (err) {
+      setIsActive(!isChecked);
+
+      return toast({
+        title: 'Whoops, there was an error.',
+        status: 'error',
+        isClosable: true
+      });
+    }
+
+    toast({
+      title: `Resource ${isChecked ? 'activated' : 'deactivated'}`,
+      status: 'success',
+      isClosable: true
+    });
+  }
+
+  /**
+   * Handle isActive switch click
+   */
+  async function handlePollIntervalChange(pollIntervalValue) {
+    const currentPollIntervalValue = pollInterval;
+
+    setPollInterval(pollIntervalValue);
+
+    if (isNew) return;
+
+    setIsPollIntervalLoading(true);
+
+    const [err] = await to(updateResource(workspaceId, resourceId, { pollInterval: pollIntervalValue }, {}));
+
+    setIsPollIntervalLoading(false);
+
+    if (err) {
+      setPollInterval(currentPollIntervalValue);
+
+      return toast({
+        title: 'Whoops, there was an error.',
+        status: 'error',
+        isClosable: true
+      });
+    }
+
+    toast({
+      title: `Resource poll interval updated`,
+      status: 'success',
+      isClosable: true
+    });
+  }
+
   return (
     <div className={styles.container}>
       <GenericResourceDetails pollInterval={pollInterval}
-                              onPollIntervalChange={(e) => setPollInterval(e.target.value)} resourceName={resourceName}
+                              onPollIntervalChange={(e) => handlePollIntervalChange(e.target.value)} resourceName={resourceName}
                               onResourceNameChange={(e) => setResourceName(e.target.value)}
-                              onIsActiveChange={() => setIsActive(!isActive)} isActive={isActive} />
+                              onIsActiveChange={(e) => handleIsActiveResourceChange(e.target.checked)}
+                              isActive={isActive}
+                              isSwitchLoading={isSwitchLoading}
+                              isPollIntervalLoading={isPollIntervalLoading} />
       <Input placeholder='Host' value={host} onChange={(e) => setHost(e.target.value)} />
       <Input placeholder='Port' value={port} onChange={(e) => setPort(e.target.value)} />
       <Input placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />

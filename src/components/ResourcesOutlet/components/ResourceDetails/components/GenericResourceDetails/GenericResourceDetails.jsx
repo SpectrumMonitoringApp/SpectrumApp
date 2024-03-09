@@ -4,6 +4,7 @@ import { Input, Select, Switch } from '@chakra-ui/react';
 import { pollIntervalValues } from '../../../../services/constants';
 
 import styles from './generic-resource-details.module.scss';
+
 export const pollIntervals = [{ value: pollIntervalValues['1m'], label: '1m' }, {
   value: pollIntervalValues['5m'],
   label: '5m'
@@ -11,20 +12,30 @@ export const pollIntervals = [{ value: pollIntervalValues['1m'], label: '1m' }, 
 
 
 export default function GenericResourceDetails(props) {
-  const { isNew, pollInterval, resourceName, isActive, onResourceNameChange, onIsActiveChange, onPollIntervalChange} = props;
+  const {
+    isNew,
+    pollInterval,
+    resourceName,
+    isActive,
+    onResourceNameChange,
+    onIsActiveChange,
+    onPollIntervalChange,
+    isSwitchLoading,
+    isPollIntervalLoading
+  } = props;
 
-  console.log(resourceName);
+  console.log('GenericResourceDetails isActive: ', isActive);
 
   return (
     <div className={styles.formDateContainer}>
-      <Input placeholder='Name' onChange={onResourceNameChange} value={resourceName}/>
+      <Input placeholder='Name' onChange={onResourceNameChange} value={resourceName} />
       <div className={styles.isActiveSwitchContainer}>
         <div className={styles.text}>Set resource active?</div>
-        <Switch onChange={onIsActiveChange} checked={isActive}/>
+        <Switch onChange={onIsActiveChange} isChecked={isActive} isDisabled={isSwitchLoading} />
       </div>
       <div className={styles.pollIntevalContainer}>
         <div className={styles.text}>How often should we poll the resource?</div>
-        <Select value={pollInterval} onChange={onPollIntervalChange}>
+        <Select value={pollInterval} onChange={onPollIntervalChange} isDisabled={isPollIntervalLoading}>
           {pollIntervals.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>

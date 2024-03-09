@@ -27,6 +27,8 @@ export default function ResourceDetails(props) {
   const [resourceDetails, setResourceDetails] = useState({});
 
   useEffect(() => {
+    if (isNew) return;
+
     processResource();
   }, []);
 
@@ -35,6 +37,8 @@ export default function ResourceDetails(props) {
    * @returns {Promise<string|number>}
    */
   async function processResource() {
+    if (!resourceId) return;
+
     const [err, res] = await to(getResource(workspaceId, resourceId));
 
     if (err) return toast({
