@@ -1,3 +1,6 @@
+@use '../../../../styles/colors';
+@use '../../../../styles/fonts';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -18,9 +21,17 @@
       }
 
       .dataStoresList {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
         padding: 10px;
         border-radius: 10px;
         border: 1px solid white;
+
+        .addFirstDataStoreHint {
+          font-size: fonts.$font-normal;
+          color: colors.$textSecondary
+        }
       }
     }
 
