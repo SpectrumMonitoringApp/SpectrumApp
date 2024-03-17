@@ -13,3 +13,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+/* Can I do like that? */
+.highcharts-credits {
+    display: none;
+}

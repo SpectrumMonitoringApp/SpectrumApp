@@ -28,6 +28,8 @@ export default function MySqlResourceDetails(props) {
   const [database, setDatabase] = useState('');
 
   useEffect(() => {
+    if (isNew || !resourceDetails) return;
+
     const {
       name,
       isActive: isResourceActive,
@@ -38,8 +40,6 @@ export default function MySqlResourceDetails(props) {
       password,
       databaseName
     } = resourceDetails;
-
-    console.log('pollInterval: ', pollInterval);
 
     setResourceName(name);
     setIsActive(isResourceActive);
@@ -95,6 +95,7 @@ export default function MySqlResourceDetails(props) {
         status: 'success',
         isClosable: true
       });
+      navigate(`/resources/${resourceId}`);
 
       return;
     }
@@ -200,7 +201,8 @@ export default function MySqlResourceDetails(props) {
   return (
     <div className={styles.container}>
       <GenericResourceDetails pollInterval={pollInterval}
-                              onPollIntervalChange={(e) => handlePollIntervalChange(e.target.value)} resourceName={resourceName}
+                              onPollIntervalChange={(e) => handlePollIntervalChange(e.target.value)}
+                              resourceName={resourceName}
                               onResourceNameChange={(e) => setResourceName(e.target.value)}
                               onIsActiveChange={(e) => handleIsActiveResourceChange(e.target.checked)}
                               isActive={isActive}

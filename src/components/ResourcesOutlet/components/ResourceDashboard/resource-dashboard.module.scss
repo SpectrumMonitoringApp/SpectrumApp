@@ -41,3 +41,38 @@
     }
   }
 }
+
+.testChart {
+  border-radius: 10px;
+  border: 1px solid colors.$backgroundSecondary;
+
+  :global(.highcharts-background) {
+    fill: colors.$systemBackground !important;
+  }
+
+  :global(.highcharts-plot-border) {
+    fill: colors.$backgroundSecondary !important;
+  }
+
+  :global(.highcharts-title) {
+    fill: white !important;
+  }
+
+  :global(.highcharts-yaxis-labels) {
+    text {
+      color: colors.$textSecondary !important;
+      fill: colors.$textSecondary !important;
+    }
+  }
+
+  :global(.highcharts-xaxis-labels) {
+    text {
+      color: colors.$textSecondary !important;
+      fill: colors.$textSecondary !important;
+    }
+  }
+
+  :global(.highcharts-grid-line) {
+    stroke: colors.$accentBackground;
+  }
+}

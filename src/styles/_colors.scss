@@ -6,6 +6,7 @@ $backgroundSecondary: #2F3747;
 $accentBackground: #3C4457;
 $focusedBackground: #576380;
 $textSecondary: #B5BAC3;
+$systemBackground: #1A202C;
 
 @function spectrumRgba($color, $opacity) {
   @return transparentize($color, 1 - $opacity);
