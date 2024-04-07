@@ -26,7 +26,7 @@
         flex-wrap: wrap;
         padding: 10px;
         border-radius: 10px;
-        border: 1px solid white;
+        border: 1px solid colors.$textSecondary;
 
         .addFirstDataStoreHint {
           font-size: fonts.$font-normal;
@@ -40,39 +40,27 @@
       gap: 20px;
     }
   }
-}
 
-.testChart {
-  border-radius: 10px;
-  border: 1px solid colors.$backgroundSecondary;
+  .dataStoresToDisplayList {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid colors.$textSecondary;
 
-  :global(.highcharts-background) {
-    fill: colors.$systemBackground !important;
-  }
+    .dataStoreName {
+      //font-weight: fonts.$font-weight-semi-bold;
 
-  :global(.highcharts-plot-border) {
-    fill: colors.$backgroundSecondary !important;
-  }
-
-  :global(.highcharts-title) {
-    fill: white !important;
-  }
-
-  :global(.highcharts-yaxis-labels) {
-    text {
-      color: colors.$textSecondary !important;
-      fill: colors.$textSecondary !important;
+      &:hover {
+        color: colors.$textSecondary
+      }
     }
   }
 
-  :global(.highcharts-xaxis-labels) {
-    text {
-      color: colors.$textSecondary !important;
-      fill: colors.$textSecondary !important;
-    }
-  }
-
-  :global(.highcharts-grid-line) {
-    stroke: colors.$accentBackground;
+  .chartsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
