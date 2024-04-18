@@ -8,7 +8,9 @@ export const spectrumAccessTokenLocalStorageKey = 'SpectrumAccessToken';
  * @returns {string}
  */
 export function apiUrl() {
-  return 'http://localhost:8000';
+  if (process.env.NODE_ENV !== 'production') return 'http://localhost:8000';
+
+  return 'https://api.tryspectrum.site';
 }
 
 /**
