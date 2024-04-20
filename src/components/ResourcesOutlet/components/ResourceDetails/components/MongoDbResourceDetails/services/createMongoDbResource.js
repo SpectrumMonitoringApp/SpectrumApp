@@ -1,12 +1,12 @@
 import { apiUrl, getStandardHeaders, checkResponse, getAuthorizationHeaders } from '../../../../../../../services/apiUrl';
 
 /**
- * Create a new MySQL resource
- * @param mySqlResource
+ * Create a new MongoDb resource
+ * @param mongoDbResource
  * @returns {Promise<Promise>}
  */
-export async function createMySqlResource(mySqlResource) {
-  const url = `${apiUrl()}/resources/my-sql`;
+export async function createMongoDbResource(mongoDbResource) {
+  const url = `${apiUrl()}/resources/mongo-db`;
 
   return fetch(url, {
     method: 'POST',
@@ -16,6 +16,6 @@ export async function createMySqlResource(mySqlResource) {
       ...getAuthorizationHeaders()
 
     },
-    body: JSON.stringify(mySqlResource)
+    body: JSON.stringify(mongoDbResource)
   }).then(checkResponse);
 }

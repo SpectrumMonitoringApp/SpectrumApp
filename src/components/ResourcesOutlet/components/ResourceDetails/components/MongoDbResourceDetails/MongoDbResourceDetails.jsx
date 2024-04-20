@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import GenericResourceDetails from '../GenericResourceDetails/GenericResourceDetails';
 import { getSelectedWorkspace } from '../../../../../../services/workspace';
 import { pollIntervalValues } from '../../../../services/constants';
-import { createMySqlResource } from './services/createMySqlResource';
+import { createMongoDbResource } from './services/createMongoDbResource';
 import { updateResource } from '../../services/updateResource';
 
 import styles from './mongo-db-resource-details.module.scss';
@@ -51,9 +51,6 @@ export default function MongoDbResourceDetails(props) {
 
     if (!currentWorkspaceId) return;
 
-    console.log('isNew: ', isNew);
-
-
     // Update fill be implemented soon
     if (!isNew) {
       const updateResourceData = {
@@ -63,12 +60,6 @@ export default function MongoDbResourceDetails(props) {
         uri,
         databaseName: database
       };
-
-      return console.log('updateResourceCredentialsData: ', updateResourceCredentialsData);
-
-
-      console.log(updateResourceData);
-      console.log(updateResourceCredentialsData);
 
       setIsLoading(true);
 
@@ -83,7 +74,7 @@ export default function MongoDbResourceDetails(props) {
       });
 
       toast({
-        title: 'MySQL resource has been updated',
+        title: 'MongoDB resource has been updated',
         status: 'success',
         isClosable: true
       });
@@ -95,18 +86,16 @@ export default function MongoDbResourceDetails(props) {
     const resourceInfo = {
       workspaceId: currentWorkspaceId,
       name: resourceName,
-      type: 'MySQL',
+      type: 'mongoDb',
       isActive,
       pollInterval,
       uri,
       databaseName: database
     };
 
-    return console.log('resourceInfo: ', resourceInfo);
-
     setIsLoading(true);
 
-    const [err, res] = await to(createMySqlResource(resourceInfo));
+    const [err, res] = await to(createMongoDbResource(resourceInfo));
 
     setIsLoading(false);
 
@@ -117,7 +106,7 @@ export default function MongoDbResourceDetails(props) {
     });
 
     toast({
-      title: 'MySQL resource has been created',
+      title: 'MongoDB resource has been created',
       status: 'success',
       isClosable: true
     });

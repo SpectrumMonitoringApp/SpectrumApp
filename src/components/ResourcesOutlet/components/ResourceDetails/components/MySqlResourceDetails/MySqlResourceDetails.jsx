@@ -103,7 +103,7 @@ export default function MySqlResourceDetails(props) {
     const resourceInfo = {
       workspaceId: currentWorkspaceId,
       name: resourceName,
-      type: 'MySQL',
+      type: 'mySql',
       isActive,
       pollInterval,
       host,
