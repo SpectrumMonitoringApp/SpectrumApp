@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 import { Select, Divider, useToast } from '@chakra-ui/react';
 
 import MySqlResourceDetails from './components/MySqlResourceDetails/MySqlResourceDetails';
+import MongoDbResourceDetails from './components/MongoDbResourceDetails/MongoDbResourceDetails';
 import { getResource } from './services/getResource';
 import { workspaceIdLocalStorageKey } from '../../../../services/workspace';
 
@@ -11,12 +12,11 @@ import styles from './resource-details.module.scss';
 
 const resourceTypeValues = {
   mySql: 'mySql',
-  redis: 'redis'
+  mongoDb: 'mongoDb'
 };
 const resourceTypes = [{ value: resourceTypeValues.mySql, label: 'MySQL', disabled: false }, {
-  value: resourceTypeValues.redis,
-  label: 'Redis',
-  disabled: true
+  value: resourceTypeValues.mongoDb,
+  label: 'MongoDb'
 }];
 
 export default function ResourceDetails(props) {
@@ -49,17 +49,23 @@ export default function ResourceDetails(props) {
 
     const { resource, resourceCredentials } = res;
 
-    setResourceType(resource.type)
+    setResourceType(resource.type);
     setResourceDetails({ ...resource, ...resourceCredentials });
   }
 
   function renderResourceDetailsComponent() {
-    if (resourceType === resourceTypeValues.mySql) return <MySqlResourceDetails resourceId={resourceId} isNew={isNew} workspaceId={workspaceId} resourceDetails={resourceDetails}/>;
+    if (resourceType === resourceTypeValues.mySql) return <MySqlResourceDetails resourceId={resourceId} isNew={isNew}
+                                                                                workspaceId={workspaceId}
+                                                                                resourceDetails={resourceDetails} />;
+
+    if (resourceType === resourceTypeValues.mongoDb) return <MongoDbResourceDetails resourceId={resourceId} isNew={isNew}
+                                                                                workspaceId={workspaceId}
+                                                                                resourceDetails={resourceDetails} />;
   }
 
   return (
     <div className={styles.container}>
-      <Select value={resourceType} onChange={(ev) => console.log(ev.target.value)} isDisabled={!isNew}>
+      <Select value={resourceType} onChange={(ev) => setResourceType(ev.target.value)} isDisabled={!isNew}>
         {resourceTypes.map(({ value, label, disabled }) => <option key={value} value={value}
                                                                    disabled={disabled}>{label}</option>)}
       </Select>
