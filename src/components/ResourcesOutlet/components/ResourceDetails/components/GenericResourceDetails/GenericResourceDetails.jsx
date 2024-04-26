@@ -5,10 +5,10 @@ import { pollIntervalValues } from '../../../../services/constants';
 
 import styles from './generic-resource-details.module.scss';
 
-export const pollIntervals = [{ value: pollIntervalValues['1m'], label: '1m' }, {
-  value: pollIntervalValues['5m'],
-  label: '5m'
-}, { value: pollIntervalValues['15m'], label: '15m' }];
+export const pollIntervals = [{ value: pollIntervalValues['10m'], label: '10m' }, {
+  value: pollIntervalValues['30m'],
+  label: '30m'
+}, { value: pollIntervalValues['1h'], label: '1h' }];
 
 
 export default function GenericResourceDetails(props) {
@@ -23,8 +23,6 @@ export default function GenericResourceDetails(props) {
     isSwitchLoading,
     isPollIntervalLoading
   } = props;
-
-  console.log('GenericResourceDetails isActive: ', isActive);
 
   return (
     <div className={styles.formDateContainer}>

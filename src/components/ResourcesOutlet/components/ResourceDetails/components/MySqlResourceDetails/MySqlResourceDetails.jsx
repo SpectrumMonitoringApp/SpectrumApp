@@ -18,7 +18,7 @@ export default function MySqlResourceDetails(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [isPollIntervalLoading, setIsPollIntervalLoading] = useState(false);
-  const [pollInterval, setPollInterval] = useState(pollIntervalValues['1m']);
+  const [pollInterval, setPollInterval] = useState(pollIntervalValues['10m']);
   const [resourceName, setResourceName] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [host, setHost] = useState('');
@@ -60,8 +60,6 @@ export default function MySqlResourceDetails(props) {
 
     if (!currentWorkspaceId) return;
 
-    console.log('isNew: ', isNew);
-
     // Update fill be implemented soon
     if (!isNew) {
       const updateResourceData = {
@@ -74,9 +72,6 @@ export default function MySqlResourceDetails(props) {
         password,
         databaseName: database
       };
-
-      console.log(updateResourceData);
-      console.log(updateResourceCredentialsData);
 
       setIsLoading(true);
 

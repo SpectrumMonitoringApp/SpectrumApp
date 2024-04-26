@@ -18,7 +18,7 @@ export default function MongoDbResourceDetails(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [isPollIntervalLoading, setIsPollIntervalLoading] = useState(false);
-  const [pollInterval, setPollInterval] = useState(pollIntervalValues['1m']);
+  const [pollInterval, setPollInterval] = useState(pollIntervalValues['10m']);
   const [resourceName, setResourceName] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [uri, setUri] = useState('');

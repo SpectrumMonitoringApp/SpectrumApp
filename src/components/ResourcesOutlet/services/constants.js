@@ -1,9 +1,9 @@
 /**
  * Available poll interval
- * @type {{'5m': number, '15m': number, '1m': number}}
+ * @type {{'30m': number, '1h': number, '10m': number}}
  */
 export const pollIntervalValues = {
-  '1m': 60,
-  '5m': 300,
-  '15m': 900
+  '10m': 600,
+  '30m': 1800,
+  '1h': 3600
 };

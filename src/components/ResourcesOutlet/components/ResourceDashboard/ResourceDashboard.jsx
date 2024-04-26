@@ -21,9 +21,19 @@ import { createNewDataStore } from './services/createNewDataStore';
 import { deleteDataStore } from './services/deleteDataStore';
 import { processDataStoresRecordCountData } from './services/processDataStoresRecordCountData';
 import { processDataStoresVolumeData } from './services/processDataStoresVolumeData';
-import { processDataStoresIndexSize} from './services/processDataStoresIndexSize';
+import { processDataStoresIndexSize } from './services/processDataStoresIndexSize';
 
 import styles from './resource-dashboard.module.scss';
+
+/**
+ * Select random color for series in Highcharts chart
+ * @returns {*}
+ */
+function pickRandomSeriesColor() {
+  const availableHighchartsColors = Highcharts.getOptions().colors;
+
+  return availableHighchartsColors[Math.floor(Math.random() * availableHighchartsColors.length)];
+}
 
 export default function ResourceDashboard(props) {
   const { id } = useOutletContext();
@@ -59,11 +69,20 @@ export default function ResourceDashboard(props) {
     const series = [];
 
     for (const [key, value] of Object.entries(res)) {
+      const seriesColor = pickRandomSeriesColor();
+
       series.push({
         id: +key,
         type: 'area',
         name: value.name,
-        data: value.dataPoints
+        data: value.dataPoints,
+        color: seriesColor,
+        fillColor: {
+          stops: [
+            [0, seriesColor],
+            [1, Highcharts.color(seriesColor).setOpacity(0).get('rgba')]
+          ]
+        }
       });
     }
 
@@ -83,11 +102,20 @@ export default function ResourceDashboard(props) {
     const series = [];
 
     for (const [key, value] of Object.entries(res)) {
+      const seriesColor = pickRandomSeriesColor();
+
       series.push({
         id: +key,
         type: 'area',
         name: value.name,
-        data: value.dataPoints
+        data: value.dataPoints,
+        color: seriesColor,
+        fillColor: {
+          stops: [
+            [0, seriesColor],
+            [1, Highcharts.color(seriesColor).setOpacity(0).get('rgba')]
+          ]
+        }
       });
     }
 
@@ -95,7 +123,7 @@ export default function ResourceDashboard(props) {
     setVolumeChartSeries(series);
   }
 
-    async function getDataStoresIndexSizeData(dataStoresIds) {
+  async function getDataStoresIndexSizeData(dataStoresIds) {
     const [err, res] = await to(processDataStoresIndexSize(workspaceId, id, dataStoresIds));
 
     if (err) return toast({
@@ -107,11 +135,20 @@ export default function ResourceDashboard(props) {
     const series = [];
 
     for (const [key, value] of Object.entries(res)) {
+      const seriesColor = pickRandomSeriesColor();
+
       series.push({
         id: +key,
         type: 'area',
         name: value.name,
-        data: value.dataPoints
+        data: value.dataPoints,
+        color: seriesColor,
+        fillColor: {
+          stops: [
+            [0, seriesColor],
+            [1, Highcharts.color(seriesColor).setOpacity(0).get('rgba')]
+          ]
+        }
       });
     }
 
@@ -220,9 +257,9 @@ export default function ResourceDashboard(props) {
     setDataStoresToDisplay(updateDataStoresToDisplay);
 
     const updateDataStoresToDisplayIds = updateDataStoresToDisplay.filter((uds) => uds.isActive).map((uds) => uds.id);
-    const updatedRecordCountChartSeries = initialRecordCountChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id))
-    const updatedVolumeChartSeries = initialVolumeChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id))
-    const updatedIndexSizeChartSeries = initialIndexSizeChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id))
+    const updatedRecordCountChartSeries = initialRecordCountChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id));
+    const updatedVolumeChartSeries = initialVolumeChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id));
+    const updatedIndexSizeChartSeries = initialIndexSizeChartSeries.filter((chart) => updateDataStoresToDisplayIds.includes(chart.id));
 
     setRecordCountChartSeries(updatedRecordCountChartSeries);
     setVolumeChartSeries(updatedVolumeChartSeries);
@@ -269,9 +306,10 @@ export default function ResourceDashboard(props) {
         </Checkbox>)}
       </div>
       <div className={styles.chartsContainer}>
-        <DashboardChart chartSeries={recordCountChartSeries} title='Records number over time' yAxisTitle='Records number'/>
-        <DashboardChart chartSeries={volumeChartSeries} title='Volume over time' yAxisTitle='Megabytes'/>
-        <DashboardChart chartSeries={indexSizeChartSeries} title='Index size over time' yAxisTitle='Megabytes'/>
+        <DashboardChart chartSeries={recordCountChartSeries} title='Records number over time'
+                        yAxisTitle='Records number' />
+        <DashboardChart chartSeries={volumeChartSeries} title='Volume over time' yAxisTitle='Megabytes' />
+        <DashboardChart chartSeries={indexSizeChartSeries} title='Index size over time' yAxisTitle='Megabytes' />
       </div>
     </div>
   );

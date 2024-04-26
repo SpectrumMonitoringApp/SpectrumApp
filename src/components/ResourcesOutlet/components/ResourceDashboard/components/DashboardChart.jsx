@@ -40,8 +40,8 @@ export default function DashboardChart(props) {
             y2: 1
           },
           stops: [
-            [0, Highcharts.getOptions().colors[0]],
-            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+            [0, Highcharts.getOptions().colors[1]],
+            [1, Highcharts.color(Highcharts.getOptions().colors[1]).setOpacity(0).get('rgba')]
           ]
         },
         marker: {
