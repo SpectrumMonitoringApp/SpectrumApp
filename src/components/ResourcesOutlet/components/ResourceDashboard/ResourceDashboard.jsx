@@ -11,7 +11,8 @@ import {
   Input,
   Skeleton,
   useToast,
-  Checkbox
+  Checkbox,
+  Divider
 } from '@chakra-ui/react';
 
 import DashboardChart from './components/DashboardChart';
@@ -22,8 +23,10 @@ import { deleteDataStore } from './services/deleteDataStore';
 import { processDataStoresRecordCountData } from './services/processDataStoresRecordCountData';
 import { processDataStoresVolumeData } from './services/processDataStoresVolumeData';
 import { processDataStoresIndexSize } from './services/processDataStoresIndexSize';
+import { getResource } from '../ResourceDetails/services/getResource';
 
 import styles from './resource-dashboard.module.scss';
+import ResourceCard from '../Resources/ResourceCard/ResourceCard';
 
 /**
  * Select random color for series in Highcharts chart
@@ -42,6 +45,7 @@ export default function ResourceDashboard(props) {
   const [isDataStoresLoading, setIsDataStoresLoading] = useState(true);
   const [isAddDataStoreLoading, setIsAddDataStoreLoading] = useState(false);
   const [isDeleteDataStoreLoading, setIsDeleteDataStoreLoading] = useState(false);
+  const [isResourceInformationLoading, setIsResourceInformationLoading] = useState(false);
   const [dataStores, setDataStores] = useState([]);
   const [dataStoresToDisplay, setDataStoresToDisplay] = useState([]);
   const [newDataStoreName, setNewDataStoreName] = useState('');
@@ -51,11 +55,36 @@ export default function ResourceDashboard(props) {
   const [recordCountChartSeries, setRecordCountChartSeries] = useState([]);
   const [volumeChartSeries, setVolumeChartSeries] = useState([]);
   const [indexSizeChartSeries, setIndexSizeChartSeries] = useState([]);
+  const [resourceInformation, setResourceInformation] = useState({});
 
   useEffect(() => {
     proceedResourceDataStores();
+    processResource();
   }, []);
 
+  /**
+   * Get resource details
+   * @returns {Promise<string|number>}
+   */
+  async function processResource() {
+    if (!id) return;
+
+    setIsResourceInformationLoading(true);
+
+    const [err, res] = await to(getResource(workspaceId, id));
+
+    setIsResourceInformationLoading(false);
+
+    if (err) return toast({
+      title: 'Whoops, there was an error.',
+      status: 'error',
+      isClosable: true
+    });
+
+    const { resource } = res;
+
+    setResourceInformation(resource);
+  }
 
   async function getDataStoresRecordCountData(dataStoresIds) {
     const [err, res] = await to(processDataStoresRecordCountData(workspaceId, id, dataStoresIds));
@@ -268,8 +297,13 @@ export default function ResourceDashboard(props) {
 
   return (
     <div className={styles.container}>
-      <div>Resource: {id}</div>
-      <Link to={`/resources/${id}/edit`}><Button colorScheme='teal'>Edit Resource</Button></Link>
+      <div className={styles.dashboardHeaderContainer}>
+        <div className={styles.resourceTitleContainer}>Resource: {isResourceInformationLoading ?
+          <Skeleton>Resource name</Skeleton> : <span
+            className={styles.resourceName}>{resourceInformation?.name}</span>}</div>
+        <Link to={`/resources/${id}/edit`}><Button colorScheme='teal'>Edit Resource</Button></Link>
+      </div>
+
       <div className={styles.dataStoresContainer}>
         <div className={styles.existingDataStores}>
           <div className={styles.title}>
@@ -294,14 +328,22 @@ export default function ResourceDashboard(props) {
         <div className={styles.addNewDataStoreContainer}>
           <Input placeholder='Enter data store name' value={newDataStoreName}
                  onChange={(e) => setNewDataStoreName(e.target.value)} />
+        </div>
+        <div className={styles.addDataStoreButtonContainer}>
           <Button colorScheme='teal' variant='outline' isLoading={isAddDataStoreLoading} isDisabled={!newDataStoreName}
                   onClick={handleDataStoreAdd}>Add Data Store</Button>
         </div>
       </div>
 
+      <Divider />
+
       <div className={styles.dataStoresToDisplayList}>
-        {dataStoresToDisplay.map((dataStore) => <Checkbox size='md' colorScheme='green' isChecked={dataStore.isActive}
-                                                          onChange={(e) => onDataStoreToDisplayClick(dataStore.id, e.target.checked)}>
+        {isDataStoresLoading ? [...Array(5).keys()].map((index) =>
+          <Skeleton key={index}><Checkbox>
+            <div className={styles.dataStoreName}>Skeleton</div>
+          </Checkbox>)</Skeleton>) : dataStoresToDisplay.map((dataStore) => <Checkbox size='md' colorScheme='green'
+                                                                                      isChecked={dataStore.isActive}
+                                                                                      onChange={(e) => onDataStoreToDisplayClick(dataStore.id, e.target.checked)}>
           <div className={styles.dataStoreName}>{dataStore.name}</div>
         </Checkbox>)}
       </div>

@@ -36,7 +36,7 @@ export default function App() {
         <CurrentUserProvider>
           <Routes>
             <Route exact path='/' element={<HomeOutlet />}>
-              <Route index element={<MainDashboard />} />
+              <Route index element={<Navigate to='/resources' replace />} />
               <Route path='/resources' element={<ResourcesOutlet />}>
                 <Route index element={<Resources />} />
                 <Route path='new' element={<ResourceDetails />} />

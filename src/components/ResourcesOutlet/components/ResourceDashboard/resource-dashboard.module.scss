@@ -6,6 +6,22 @@
   flex-direction: column;
   gap: 20px;
 
+  .dashboardHeaderContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .resourceTitleContainer {
+      display: flex;
+      gap: 4px;
+      font-size: fonts.$font-medium;
+
+      .resourceName {
+        font-weight: fonts.$font-weight-semi-bold;
+      }
+    }
+  }
+
   .dataStoresContainer {
     display: flex;
     flex-direction: column;

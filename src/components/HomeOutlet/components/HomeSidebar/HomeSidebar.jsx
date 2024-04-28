@@ -14,9 +14,7 @@ import styles from './home-sidebar.module.scss';
  * @type {{profile: string, mainDashboard: string, resources: string}}
  */
 const sidebarMenuButtonsPaths = {
-  mainDashboard: '/',
   resources: '/resources',
-  settings: '/settings'
 };
 
 export default function HomeSidebar(props) {
@@ -39,22 +37,10 @@ export default function HomeSidebar(props) {
         <CurrentWorkspace workspaceName={workspace?.name} isWorkspaceLoading={isWorkspaceLoading}/>
         <Divider type='teal' className={styles.dividerMargins} />
         <div className={styles.sidebarButtonsContainer}>
-          <Link to='/' className={styles.linkButtonContainer}>
-            <Button colorScheme='teal' variant='ghost' leftIcon={<LinkIcon />} justifyContent='flex-start'
-                    isActive={isSidebarMenuButtonActive(sidebarMenuButtonsPaths.mainDashboard)}>
-              Main Dashboard
-            </Button>
-          </Link>
           <Link to='/resources' className={styles.linkButtonContainer}>
             <Button colorScheme='teal' variant='ghost' leftIcon={<DragHandleIcon />} justifyContent='flex-start'
                     isActive={isSidebarMenuButtonActive(sidebarMenuButtonsPaths.resources)}>
               Resources
-            </Button>
-          </Link>
-          <Link to='/settings' className={styles.linkButtonContainer}>
-            <Button colorScheme='teal' variant='ghost' leftIcon={<SettingsIcon />} justifyContent='flex-start'
-                    isActive={isSidebarMenuButtonActive(sidebarMenuButtonsPaths.settings)}>
-              Settings
             </Button>
           </Link>
         </div>

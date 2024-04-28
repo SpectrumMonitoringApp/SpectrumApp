@@ -3,23 +3,23 @@
 
 .container {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   padding: 10px;
   border-radius: 10px;
   background-color: colors.$accentBackground;
 
-  .avatarContainer {
-
-  }
-
-  .fullNameContainer {
+  .currentUserInformation {
     display: flex;
-    align-items: center;
-    font-size: fonts.$font-normal;
-  }
+    gap: 10px;
 
-  &:hover {
-    background-color: colors.$focusedBackground;
-    transition: background-color 0.3s; /* For modern browsers */
+    .avatarContainer {
+
+    }
+
+    .fullNameContainer {
+      display: flex;
+      align-items: center;
+      font-size: fonts.$font-normal;
+    }
   }
 }
