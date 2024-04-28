@@ -8,12 +8,15 @@ import { getUserWorkspaces } from './services/getUserWorkspaces';
 import {
   workspaceIdLocalStorageKey, handleWorkspaceSelect
 } from '../../../../services/workspace';
+import { useCurrentUser } from '../../../../hooks/useCurrentUser';
 
 import styles from './join-workspace.module.scss';
 
 export default function JoinWorkspace() {
   const toast = useToast();
   const navigate = useNavigate();
+  const { state } = useCurrentUser();
+  const { user } = state;
   const workspaceId = localStorage.getItem(workspaceIdLocalStorageKey);
   const [isLoading, setIsLoading] = useState(false);
   const [userWorkspaces, setUserWorkspace] = useState([]);
@@ -53,7 +56,7 @@ export default function JoinWorkspace() {
         <div className={styles.contentContainer}>
           <div className={styles.headerContainer}>
             <div className={styles.title}>
-              👋 Welcome to Spectrum, Bohdan
+              👋 Welcome to Spectrum, {user?.fullName}
             </div>
             <div className={styles.subTitle}>
               Click below to join a workspace, or <Link className={styles.createNewText} to='/onboarding/create'>create
